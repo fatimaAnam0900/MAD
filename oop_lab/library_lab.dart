@@ -127,6 +127,19 @@ class Dvd extends LibraryItem with Renewable {
     return days * feePerDay * 2;
   }
 }
+extension MoneyText on int {
+  String get rs => 'Rs $this';
+}
+
+extension Initials on String {
+  String get initials => split(' ').map((w) => w[0]).join();
+}
+
+extension ShelfMath on List<LibraryItem> {
+  int totalLateFee(int days) {
+    return fold(0, (sum, item) => sum + item.lateFee(days));
+  }
+}
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
@@ -271,7 +284,30 @@ void step6() {
   // MemberType.student is safer than the string 'student' because
   // an enum restricts choices to defined values and helps catch mistakes.
 }
-void step7() { print('--- Step 7 ---'); }
+void step7() {
+  print('--- Step 7 ---');
+
+  MemberType type = MemberType.values[seed % 3];
+  int fee = daysLate * feePerDay;
+  int discountedFee = type.applyDiscount(fee);
+
+  String title = titles[u];
+
+  List<LibraryItem> shelf = [
+    mainBook(),
+    mainMagazine(),
+    mainDvd(),
+  ];
+
+  print('Step 7: ${discountedFee.rs}');
+  print('Step 7: initials of "$title" = ${title.initials}');
+  print(
+    'Step 7: shelf fee for $daysLate days = ${shelf.totalLateFee(daysLate).rs}',
+  );
+
+  // Extensions make operations more readable, such as 72.rs,
+  // instead of calling a separate function like rs(72).
+}
 void step8() { print('--- Step 8 ---'); }
 void step9() { print('--- Step 9 ---'); }
 void step10() { print('--- Step 10 ---'); }
