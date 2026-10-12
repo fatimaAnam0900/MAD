@@ -1,27 +1,34 @@
 // library_lab.dart  -  Campus Library System
 // Name: ____________________   Roll no: ____________
 
-const String rollNo = '04072313046';   // e.g. '21F-0347'
+const String rollNo = '04072313046'; // e.g. '21F-0347'
 
 // ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
 final int seed = int.parse(rollNo.substring(rollNo.length - 2));
-final int t = seed ~/ 10;   // tens digit
-final int u = seed % 10;    // units digit
+final int t = seed ~/ 10; // tens digit
+final int u = seed % 10; // units digit
 
 const List<String> titles = [
-  'Dart Basics', 'Flutter In Action', 'Data Structures', 'Operating Systems',
-  'Mobile Design', 'Clean Code', 'Algorithms Unlocked', 'Computer Networks',
-  'Database Systems', 'Software Testing',
+  'Dart Basics',
+  'Flutter In Action',
+  'Data Structures',
+  'Operating Systems',
+  'Mobile Design',
+  'Clean Code',
+  'Algorithms Unlocked',
+  'Computer Networks',
+  'Database Systems',
+  'Software Testing',
 ];
 
-int yearOf(int i) => 1995 + 2 * i + t;      // publication year of titles[i]
-final int feePerDay = 5 + t;                // late fee per day, in rupees
-final int daysLate = 3 + (t + u) % 6;       // normal number of days late
-final int daysBig = 10 + u;                 // a long overdue period
-final int feeCap = 150 + 10 * t;            // no single fee may exceed this
-final int renewLimit = 1 + t % 3;           // renewals allowed per item
-final int renewAttempts = 2 + u;            // renewal attempts made in Step 5
-final int shelfSize = 3 + u % 4;            // items on the shelf in Steps 9-10
+int yearOf(int i) => 1995 + 2 * i + t; // publication year of titles[i]
+final int feePerDay = 5 + t; // late fee per day, in rupees
+final int daysLate = 3 + (t + u) % 6; // normal number of days late
+final int daysBig = 10 + u; // a long overdue period
+final int feeCap = 150 + 10 * t; // no single fee may exceed this
+final int renewLimit = 1 + t % 3; // renewals allowed per item
+final int renewAttempts = 2 + u; // renewal attempts made in Step 5
+final int shelfSize = 3 + u % 4; // items on the shelf in Steps 9-10
 // ===========================================================================
 
 abstract class LibraryItem {
@@ -44,6 +51,7 @@ abstract class LibraryItem {
 
   int lateFee(int days);
 }
+
 abstract class Borrowable {
   bool get isAvailable;
   void borrow();
@@ -62,6 +70,7 @@ mixin Renewable {
     return true;
   }
 }
+
 enum MemberType {
   student(3, 50),
   faculty(10, 20),
@@ -77,49 +86,51 @@ enum MemberType {
   }
 }
 
-
 class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
   bool _out = false;
   Book(super.title, super.year, this.pages);
 
   @override
-String describe() {
-  return '${super.describe()}, $pages pages';
-}
-@override
-int lateFee(int days) {
-  return days * feePerDay;
-}
-@override
-bool get isAvailable => !_out;
+  String describe() {
+    return '${super.describe()}, $pages pages';
+  }
 
-@override
-void borrow() {
-  _out = true;
-}
+  @override
+  int lateFee(int days) {
+    return days * feePerDay;
+  }
 
-@override
-void giveBack() {
-  _out = false;
-}
+  @override
+  bool get isAvailable => !_out;
+
+  @override
+  void borrow() {
+    _out = true;
+  }
+
+  @override
+  void giveBack() {
+    _out = false;
+  }
 }
 
 class Magazine extends LibraryItem {
   final int issue;
 
-  Magazine(String title, int year, this.issue)
-      : super(title, year);
+  Magazine(String title, int year, this.issue) : super(title, year);
 
   @override
   String describe() {
     return '${super.describe()}, issue $issue';
   }
+
   @override
-int lateFee(int days) {
-  return days * (feePerDay ~/ 2);
+  int lateFee(int days) {
+    return days * (feePerDay ~/ 2);
+  }
 }
-}
+
 class Dvd extends LibraryItem with Renewable {
   final int minutes;
 
@@ -135,6 +146,7 @@ class Dvd extends LibraryItem with Renewable {
     return days * feePerDay * 2;
   }
 }
+
 extension MoneyText on int {
   String get rs => 'Rs $this';
 }
@@ -145,12 +157,10 @@ extension Initials on String {
 
 extension ShelfMath on List<LibraryItem> {
   int totalLateFee(int days) {
-    return fold<int>(
-      0,
-      (sum, item) => (sum + item.lateFee(days)).toInt(),
-    );
+    return fold<int>(0, (sum, item) => (sum + item.lateFee(days)).toInt());
   }
 }
+
 class Fine {
   final int amount;
 
@@ -175,6 +185,7 @@ class Fine {
   @override
   String toString() => 'Fine($amount)';
 }
+
 class Member {
   final String name;
   final MemberType type;
@@ -198,10 +209,12 @@ Magazine mainMagazine() {
   int i = (u + 1) % 10;
   return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
 }
+
 Dvd mainDvd() {
   int i = (u + 2) % 10;
   return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
+
 List<LibraryItem> buildShelf() {
   List<LibraryItem> shelf = [];
 
@@ -220,8 +233,6 @@ List<LibraryItem> buildShelf() {
   return shelf;
 }
 
-
-
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -235,7 +246,6 @@ void main() {
   step9();
   step10();
 }
-
 
 void step1() {
   print('--- Step 1 ---');
@@ -261,6 +271,7 @@ void step2() {
   // the method will not override the parent's describe() method.
   // Calls to describe() will use the inherited method instead.
 }
+
 void step3() {
   print('--- Step 3 ---');
 
@@ -269,7 +280,9 @@ void step3() {
   Dvd dvd = mainDvd();
 
   print('Step 3: Book late fee for $daysLate days = ${book.lateFee(daysLate)}');
-  print('Step 3: Magazine late fee for $daysLate days = ${magazine.lateFee(daysLate)}');
+  print(
+    'Step 3: Magazine late fee for $daysLate days = ${magazine.lateFee(daysLate)}',
+  );
   print('Step 3: Dvd late fee for $daysLate days = ${dvd.lateFee(daysLate)}');
 
   // An abstract class cannot be instantiated directly because
@@ -290,23 +303,16 @@ void step4() {
   book.giveBack();
   print('Step 4: after return? ${book.isAvailable}');
 
-  List<LibraryItem> items = [
-    book,
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> items = [book, mainMagazine(), mainDvd()];
 
   for (LibraryItem item in items) {
-    print(
-      'Step 4: ${item.runtimeType} borrowable? ${item is Borrowable}',
-    );
+    print('Step 4: ${item.runtimeType} borrowable? ${item is Borrowable}');
   }
 
   // If Book extended Borrowable, it would inherit its
   // implementations. But Borrowable defines only a contract,
   // so implements requires Book to provide its own behaviour.
 }
-
 
 void step5() {
   print('--- Step 5 ---');
@@ -320,9 +326,7 @@ void step5() {
     }
   }
 
-  print(
-    'Step 5: renewed $ok of $renewAttempts attempts (limit $renewLimit)',
-  );
+  print('Step 5: renewed $ok of $renewAttempts attempts (limit $renewLimit)');
 
   print('Step 5: renew once more? ${book.renew(renewLimit)}');
 
@@ -343,13 +347,12 @@ void step6() {
 
   print('Step 6: member type = ${type.name} (index ${type.index})');
   print('Step 6: max loans = ${type.maxLoans}');
-  print(
-    'Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount',
-  );
+  print('Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount');
 
   // MemberType.student is safer than the string 'student' because
   // an enum restricts choices to defined values and helps catch mistakes.
 }
+
 void step7() {
   print('--- Step 7 ---');
 
@@ -359,11 +362,7 @@ void step7() {
 
   String title = titles[u];
 
-  List<LibraryItem> shelf = [
-    mainBook(),
-    mainMagazine(),
-    mainDvd(),
-  ];
+  List<LibraryItem> shelf = [mainBook(), mainMagazine(), mainDvd()];
 
   print('Step 7: ${discountedFee.rs}');
   print('Step 7: initials of "$title" = ${title.initials}');
@@ -374,6 +373,7 @@ void step7() {
   // Extensions make operations more readable, such as 72.rs,
   // instead of calling a separate function like rs(72).
 }
+
 void step8() {
   print('--- Step 8 ---');
 
@@ -383,15 +383,14 @@ void step8() {
   print('Step 8: $f1 + $f2 = ${f1 + f2}');
   print('Step 8: first bigger? ${f1 > f2}');
   print('Step 8: equal copies? ${f1 == Fine(f1.amount)}');
-  print(
-    'Step 8: set size = ${{f1, Fine(f1.amount), f2}.length}',
-  );
+  print('Step 8: set size = ${{f1, Fine(f1.amount), f2}.length}');
 
   // When objects are equal according to ==, they must have the same
   // hashCode so Set and Map can handle them correctly.
   // Without the matching hashCode, equal Fine objects may be stored
   // as separate Set entries because they can have different hash codes.
 }
+
 void step9() {
   print('--- Step 9 ---');
 
@@ -402,9 +401,7 @@ void step9() {
 
   print('Step 9: items created = ${LibraryItem.created}');
 
-  int cappedFee = LibraryItem.capFee(
-    shelf.first.lateFee(daysBig),
-  );
+  int cappedFee = LibraryItem.capFee(shelf.first.lateFee(daysBig));
 
   print('Step 9: capped fee = $cappedFee (cap $feeCap)');
 
@@ -421,39 +418,31 @@ void step9() {
   // created is static, so it belongs to LibraryItem itself.
   // We can access it as LibraryItem.created without making an object.
 }
+
 void step10() {
   print('--- Step 10 ---');
 
   List<LibraryItem> shelf = buildShelf();
 
-  Member member = Member(
-    'S$seed',
-    MemberType.values[seed % 3],
-  );
+  Member member = Member('S$seed', MemberType.values[seed % 3]);
 
   Fine totalFine = shelf.fold(
     Fine(0),
     (sum, item) => sum + member.feeFor(item, daysLate),
   );
 
-  int borrowableCount =
-      shelf.where((item) => item is Borrowable).length;
+  int borrowableCount = shelf.where((item) => item is Borrowable).length;
 
-  int renewableCount =
-      shelf.where((item) => item is Renewable).length;
+  int renewableCount = shelf.where((item) => item is Renewable).length;
 
   print(
     'Step 10: ${shelf.length} items, '
     '$borrowableCount borrowable, $renewableCount renewable',
   );
 
-  print(
-    'Step 10: ${member.name} (${member.type.name}) owes $totalFine',
-  );
+  print('Step 10: ${member.name} (${member.type.name}) owes $totalFine');
 
-  print(
-    'Step 10: over the cap? ${totalFine > Fine(feeCap)}',
-  );
+  print('Step 10: over the cap? ${totalFine > Fine(feeCap)}');
 
   // One polymorphic loop handles Book, Magazine and Dvd through
   // LibraryItem without checking each item's concrete type.
