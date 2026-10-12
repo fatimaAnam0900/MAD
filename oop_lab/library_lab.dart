@@ -63,7 +63,8 @@ Book mainBook() {
 }
 
 Magazine mainMagazine() {
-  return Magazine(titles[u + 1], yearOf(u + 1), 10 + u);
+  int i = (u + 1) % 10;
+  return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
 }
 
 
@@ -98,8 +99,14 @@ void step1() {
 }
 
 void step2() {
-  print(mainBook().describe());
-  print(mainMagazine().describe());
+  print('--- Step 2 ---');
+
+  print('Step 2: ${mainBook().describe()}');
+  print('Step 2: ${mainMagazine().describe()}');
+
+  // If @override is omitted and describe() is misspelled as descibe(),
+  // the method will not override the parent's describe() method.
+  // Calls to describe() will use the inherited method instead.
 }
 void step3() { print('--- Step 3 ---'); }
 void step4() { print('--- Step 4 ---'); }
