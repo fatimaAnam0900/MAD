@@ -175,6 +175,20 @@ class Fine {
   @override
   String toString() => 'Fine($amount)';
 }
+class Member {
+  final String name;
+  final MemberType type;
+
+  Member(this.name, this.type);
+
+  Fine feeFor(LibraryItem item, int days) {
+    int fee = item.lateFee(days);
+    int cappedFee = LibraryItem.capFee(fee);
+    int discountedFee = type.applyDiscount(cappedFee);
+
+    return Fine(discountedFee);
+  }
+}
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
@@ -407,4 +421,40 @@ void step9() {
   // created is static, so it belongs to LibraryItem itself.
   // We can access it as LibraryItem.created without making an object.
 }
-void step10() { print('--- Step 10 ---'); }
+void step10() {
+  print('--- Step 10 ---');
+
+  List<LibraryItem> shelf = buildShelf();
+
+  Member member = Member(
+    'S$seed',
+    MemberType.values[seed % 3],
+  );
+
+  Fine totalFine = shelf.fold(
+    Fine(0),
+    (sum, item) => sum + member.feeFor(item, daysLate),
+  );
+
+  int borrowableCount =
+      shelf.where((item) => item is Borrowable).length;
+
+  int renewableCount =
+      shelf.where((item) => item is Renewable).length;
+
+  print(
+    'Step 10: ${shelf.length} items, '
+    '$borrowableCount borrowable, $renewableCount renewable',
+  );
+
+  print(
+    'Step 10: ${member.name} (${member.type.name}) owes $totalFine',
+  );
+
+  print(
+    'Step 10: over the cap? ${totalFine > Fine(feeCap)}',
+  );
+
+  // One polymorphic loop handles Book, Magazine and Dvd through
+  // LibraryItem without checking each item's concrete type.
+}
