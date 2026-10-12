@@ -24,7 +24,7 @@ final int renewAttempts = 2 + u;            // renewal attempts made in Step 5
 final int shelfSize = 3 + u % 4;            // items on the shelf in Steps 9-10
 // ===========================================================================
 
-class LibraryItem {
+abstract class LibraryItem {
   final String title;
   final int year;
 
@@ -32,7 +32,9 @@ class LibraryItem {
 
 String describe() {
   return '$title ($year)';
+
 }
+int lateFee(int days);
 }
 
 class Book extends LibraryItem {
@@ -43,6 +45,10 @@ class Book extends LibraryItem {
   @override
 String describe() {
   return '${super.describe()}, $pages pages';
+}
+@override
+int lateFee(int days) {
+  return days * feePerDay;
 }
 }
 
@@ -56,6 +62,25 @@ class Magazine extends LibraryItem {
   String describe() {
     return '${super.describe()}, issue $issue';
   }
+  @override
+int lateFee(int days) {
+  return days * (feePerDay ~/ 2);
+}
+}
+class Dvd extends LibraryItem {
+  final int minutes;
+
+  Dvd(super.title, super.year, this.minutes);
+
+  @override
+  String describe() {
+    return '${super.describe()}, $minutes min';
+  }
+
+  @override
+  int lateFee(int days) {
+    return days * feePerDay * 2;
+  }
 }
 
 Book mainBook() {
@@ -65,6 +90,10 @@ Book mainBook() {
 Magazine mainMagazine() {
   int i = (u + 1) % 10;
   return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
+}
+Dvd mainDvd() {
+  int i = (u + 2) % 10;
+  return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
 
 
@@ -108,7 +137,21 @@ void step2() {
   // the method will not override the parent's describe() method.
   // Calls to describe() will use the inherited method instead.
 }
-void step3() { print('--- Step 3 ---'); }
+void step3() {
+  print('--- Step 3 ---');
+
+  Book book = mainBook();
+  Magazine magazine = mainMagazine();
+  Dvd dvd = mainDvd();
+
+  print('Step 3: Book late fee for $daysLate days = ${book.lateFee(daysLate)}');
+  print('Step 3: Magazine late fee for $daysLate days = ${magazine.lateFee(daysLate)}');
+  print('Step 3: Dvd late fee for $daysLate days = ${dvd.lateFee(daysLate)}');
+
+  // An abstract class cannot be instantiated directly because
+  // its abstract methods have no implementation.
+  // A concrete subclass must implement all abstract methods.
+}
 void step4() { print('--- Step 4 ---'); }
 void step5() { print('--- Step 5 ---'); }
 void step6() { print('--- Step 6 ---'); }
