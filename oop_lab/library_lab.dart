@@ -29,17 +29,43 @@ class LibraryItem {
   final int year;
 
   LibraryItem(this.title, this.year);
+
+String describe() {
+  return '$title ($year)';
+}
 }
 
 class Book extends LibraryItem {
   final int pages;
 
   Book(super.title, super.year, this.pages);
+
+  @override
+String describe() {
+  return '${super.describe()}, $pages pages';
+}
+}
+
+class Magazine extends LibraryItem {
+  final int issue;
+
+  Magazine(String title, int year, this.issue)
+      : super(title, year);
+
+  @override
+  String describe() {
+    return '${super.describe()}, issue $issue';
+  }
 }
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
 }
+
+Magazine mainMagazine() {
+  return Magazine(titles[u + 1], yearOf(u + 1), 10 + u);
+}
+
 
 
 void main() {
@@ -71,7 +97,10 @@ void step1() {
   // pages is not declared in LibraryItem.
 }
 
-void step2() { print('--- Step 2 ---'); }
+void step2() {
+  print(mainBook().describe());
+  print(mainMagazine().describe());
+}
 void step3() { print('--- Step 3 ---'); }
 void step4() { print('--- Step 4 ---'); }
 void step5() { print('--- Step 5 ---'); }
