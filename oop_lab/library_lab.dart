@@ -36,10 +36,15 @@ String describe() {
 }
 int lateFee(int days);
 }
+abstract class Borrowable {
+  bool get isAvailable;
+  void borrow();
+  void giveBack();
+}
 
-class Book extends LibraryItem {
+class Book extends LibraryItem implements Borrowable {
   final int pages;
-
+  bool _out = false;
   Book(super.title, super.year, this.pages);
 
   @override
@@ -49,6 +54,18 @@ String describe() {
 @override
 int lateFee(int days) {
   return days * feePerDay;
+}
+@override
+bool get isAvailable => !_out;
+
+@override
+void borrow() {
+  _out = true;
+}
+
+@override
+void giveBack() {
+  _out = false;
 }
 }
 
@@ -152,7 +169,37 @@ void step3() {
   // its abstract methods have no implementation.
   // A concrete subclass must implement all abstract methods.
 }
-void step4() { print('--- Step 4 ---'); }
+
+void step4() {
+  print('--- Step 4 ---');
+
+  Book book = mainBook();
+
+  print('Step 4: available? ${book.isAvailable}');
+
+  book.borrow();
+  print('Step 4: after borrow? ${book.isAvailable}');
+
+  book.giveBack();
+  print('Step 4: after return? ${book.isAvailable}');
+
+  List<LibraryItem> items = [
+    book,
+    mainMagazine(),
+    mainDvd(),
+  ];
+
+  for (LibraryItem item in items) {
+    print(
+      'Step 4: ${item.runtimeType} borrowable? ${item is Borrowable}',
+    );
+  }
+
+  // If Book extended Borrowable, it would inherit its
+  // implementations. But Borrowable defines only a contract,
+  // so implements requires Book to provide its own behaviour.
+}
+
 void step5() { print('--- Step 5 ---'); }
 void step6() { print('--- Step 6 ---'); }
 void step7() { print('--- Step 7 ---'); }
