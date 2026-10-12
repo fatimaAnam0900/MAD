@@ -140,6 +140,30 @@ extension ShelfMath on List<LibraryItem> {
     return fold(0, (sum, item) => sum + item.lateFee(days));
   }
 }
+class Fine {
+  final int amount;
+
+  const Fine(this.amount);
+
+  Fine operator +(Fine o) {
+    return Fine(amount + o.amount);
+  }
+
+  bool operator >(Fine o) {
+    return amount > o.amount;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Fine && other.amount == amount;
+  }
+
+  @override
+  int get hashCode => amount.hashCode;
+
+  @override
+  String toString() => 'Fine($amount)';
+}
 
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
@@ -308,6 +332,23 @@ void step7() {
   // Extensions make operations more readable, such as 72.rs,
   // instead of calling a separate function like rs(72).
 }
-void step8() { print('--- Step 8 ---'); }
+void step8() {
+  print('--- Step 8 ---');
+
+  Fine f1 = Fine(daysLate * feePerDay);
+  Fine f2 = Fine(daysLate * (feePerDay ~/ 2));
+
+  print('Step 8: $f1 + $f2 = ${f1 + f2}');
+  print('Step 8: first bigger? ${f1 > f2}');
+  print('Step 8: equal copies? ${f1 == Fine(f1.amount)}');
+  print(
+    'Step 8: set size = ${{f1, Fine(f1.amount), f2}.length}',
+  );
+
+  // When objects are equal according to ==, they must have the same
+  // hashCode so Set and Map can handle them correctly.
+  // Without the matching hashCode, equal Fine objects may be stored
+  // as separate Set entries because they can have different hash codes.
+}
 void step9() { print('--- Step 9 ---'); }
 void step10() { print('--- Step 10 ---'); }
