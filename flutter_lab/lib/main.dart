@@ -30,6 +30,7 @@ final List<String> lifecycleLog = <String>[];
 void main() => runApp(const LabApp());
 
 // Keep the name LabApp and its const constructor: the checker uses them.
+// Stateless: only wraps MaterialApp, nothing changes
 class LabApp extends StatelessWidget {
   const LabApp({super.key});
 
@@ -44,6 +45,7 @@ class LabApp extends StatelessWidget {
 /// Think: Widget tree: LabApp > MaterialApp > HomePage > Scaffold >
 // SingleChildScrollView > Column > Row > Text('Max: ..').
 // Level count is something I verified by drawing it on paper.
+// Stateless: fixed page layout, remembers nothing itself.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -82,6 +84,7 @@ class HomePage extends StatelessWidget {
 // immutable. If data must change, Flutter creates a new widget instead
 // of editing this one. Without final, the analyzer warns that this class
 // is marked @immutable but has a non-final field.
+// Stateless: shows only the name, roll and course it is given.
 class StudentCard extends StatelessWidget {
   final String name;
   final String roll;
@@ -114,6 +117,7 @@ class StudentCard extends StatelessWidget {
 // Think: GoalBanner does not need setState because it has no state of its
 // own. Its count and max come from outside. To show a new count, the parent
 // must rebuild and pass a new count value into a new GoalBanner.
+// Stateless: count and max come from the parent, no own memory.
 class GoalBanner extends StatelessWidget {
   final int count;
   final int max;
@@ -133,6 +137,7 @@ class GoalBanner extends StatelessWidget {
 // State object and only rebuilds the widget code. On hot restart the app
 // starts fresh, a new State object is created, so _count goes back to
 // startCount.
+// Stateful: _count changes when the buttons are tapped.
 class Tally extends StatefulWidget {
   const Tally({super.key});
 
@@ -201,6 +206,7 @@ void _reset() {
 // one timer and each tick calls setState exactly once, which triggers one
 // build. I could print lifecycleLog (for example print(lifecycleLog) in
 // dispose) to prove that dispose ran.
+// Stateful: _left and _builds change every second.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -248,6 +254,7 @@ class _CountdownState extends State<Countdown> {
 
 
 // ---- Provided for Step 7. It has a bug on purpose. Do not rename anything.
+// Stateful: _clicks changes on every tap and the screen must update.
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
