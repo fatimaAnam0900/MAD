@@ -197,6 +197,10 @@ void _reset() {
 // Think: If _timer.cancel() is missing in dispose and the widget is
 // removed, the timer keeps firing and calls setState on a disposed State.
 // The console shows: "setState() called after dispose()".
+// Think: Builds goes up by one per second, not two, because there is only
+// one timer and each tick calls setState exactly once, which triggers one
+// build. I could print lifecycleLog (for example print(lifecycleLog) in
+// dispose) to prove that dispose ran.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -207,10 +211,12 @@ class Countdown extends StatefulWidget {
 class _CountdownState extends State<Countdown> {
   late int _left;
   late Timer _timer;
+  int _builds = 0;
 
   @override
   void initState() {
     super.initState();
+    lifecycleLog.add('initState');
     _left = startSeconds;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() => _left--);
@@ -220,16 +226,23 @@ class _CountdownState extends State<Countdown> {
 
   @override
   void dispose() {
+    lifecycleLog.add('dispose');
     _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_left > 0) {
-      return Text('Time left: $_left s', key: const Key('time-left'));
-    }
-    return const Text('Time is up!', key: Key('time-left'));
+    _builds++;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _left > 0
+            ? Text('Time left: $_left s', key: const Key('time-left'))
+            : const Text('Time is up!', key: Key('time-left')),
+        Text('Builds: $_builds', key: const Key('builds')),
+      ],
+    );
   }
 }
 
