@@ -68,6 +68,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Tally(), 
+            const SizedBox(height: 12),     
+            const BuggyCounter(),
           ],
         ),
       ),
@@ -198,7 +200,9 @@ class BuggyCounter extends StatefulWidget {
   @override
   State<BuggyCounter> createState() => _BuggyCounterState();
 }
-
+// Think: After 3 taps before the fix, _clicks inside the State was 9
+// (3 x bugStep 3), but the screen still showed 0, because without
+// setState Flutter never called build again.
 class _BuggyCounterState extends State<BuggyCounter> {
   int _clicks = 0;
 
@@ -210,8 +214,10 @@ class _BuggyCounterState extends State<BuggyCounter> {
         const SizedBox(width: 12),
         ElevatedButton(
           key: const Key('bug-button'),
-          onPressed: () {
-            _clicks += bugStep;
+                    onPressed: () {
+            setState(() {
+              _clicks += bugStep;
+            });
           },
           child: Text('+$bugStep'),
         ),
