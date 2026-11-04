@@ -104,6 +104,10 @@ children: [
   const SizedBox(height: 12),
   const InfoPanel(),
 
+  
+const SizedBox(height: 12),
+const SummaryRow(),
+
   const Clock(),
   const SizedBox(height: 12),
 ],
@@ -140,24 +144,32 @@ class SettingsCard extends StatelessWidget {
 class SummaryRow extends StatelessWidget {
   const SummaryRow({super.key});
 
+// Constraints go down: Expanded gives each Text a limited share of the Row's width.
+// Sizes go up: each Text reports the height it needs after wrapping its words.
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
-        Text(
-          'Part A: read the widget tree of the $course board from top to bottom.',
-          key: const Key('sum-a'),
-        ),
-        Text(
-          'Part B: build each box from small widgets and never extend a built-in class.',
-          key: const Key('sum-b'),
-        ),
-        Text(
-          'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
-          key: const Key('sum-c'),
-        ),
-      ],
-    );
+  children: [
+    Expanded(
+      child: Text(
+        'Part A: read the widget tree of the $course board from top to bottom.',
+        key: const Key('sum-a'),
+      ),
+    ),
+    Expanded(
+      child: Text(
+        'Part B: build each box from small widgets and never extend a built-in class.',
+        key: const Key('sum-b'),
+      ),
+    ),
+    Expanded(
+      child: Text(
+        'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
+        key: const Key('sum-c'),
+      ),
+    ),
+  ],
+);
   }
 }
 
