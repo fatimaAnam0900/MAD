@@ -110,6 +110,9 @@ const SummaryRow(),
 const SizedBox(height: 12),
 const ShareRow(),
 
+const SizedBox(height: 12),
+const InfoBox(),
+
   const Clock(),
   const SizedBox(height: 12),
 ],
@@ -210,6 +213,32 @@ class ShareRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+class InfoBox extends StatelessWidget {
+  const InfoBox({super.key});
+
+
+// Padding is inside the border; margin is outside the border.
+// Use Padding when only inner spacing is needed.
+// Use SizedBox when you only need a fixed gap or size.
+// Use Container when you need multiple layout and decoration properties.
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: const Key('info-box'),
+      margin: EdgeInsets.all(boxMargin),
+      padding: EdgeInsets.all(boxPad),
+      decoration: BoxDecoration(
+        color: swatches[hue]!.shade100,
+        borderRadius: BorderRadius.circular(boxRadius),
+        border: Border.all(width: boxBorder),
+      ),
+      child: Text(
+        'Course: $course',
+        key: const Key('box-text'),
+      ),
     );
   }
 }
