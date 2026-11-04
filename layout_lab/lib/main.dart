@@ -12,12 +12,25 @@ final int t = seed ~/ 10; // tens digit
 final int u = seed % 10; // units digit
 
 const List<String> courses = [
-  'Mobile Dev', 'Data Structures', 'Operating Systems', 'Databases',
-  'Networks', 'Software Eng', 'AI', 'Web Engineering', 'Graphics', 'Security',
+  'Mobile Dev',
+  'Data Structures',
+  'Operating Systems',
+  'Databases',
+  'Networks',
+  'Software Eng',
+  'AI',
+  'Web Engineering',
+  'Graphics',
+  'Security',
 ];
 const List<String> names = ['Ali', 'Sara', 'Omar', 'Hina', 'Zain', 'Maya'];
 const List<String> mains = [
-  'start', 'center', 'end', 'spaceBetween', 'spaceAround', 'spaceEvenly',
+  'start',
+  'center',
+  'end',
+  'spaceBetween',
+  'spaceAround',
+  'spaceEvenly',
 ];
 const List<String> crosses = ['start', 'center', 'end'];
 const List<String> hues = ['teal', 'indigo', 'orange', 'pink', 'green'];
@@ -92,35 +105,32 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          
-children: [
-  const SettingsCard(),
-  const SizedBox(height: 12),
 
-  const Welcome(),
-  const SizedBox(height: 12),
+          children: [
+            const SettingsCard(),
+            const SizedBox(height: 12),
 
- const SwapBoard(),
-  const SizedBox(height: 12),
-  const InfoPanel(),
+            const Welcome(),
+            const SizedBox(height: 12),
 
-  
-const SizedBox(height: 12),
-const SummaryRow(),
-const SizedBox(height: 12),
-const ShareRow(),
+            const SwapBoard(),
+            const SizedBox(height: 12),
+            const InfoPanel(),
 
-const SizedBox(height: 12),
-const InfoBox(),
+            const SizedBox(height: 12),
+            const SummaryRow(),
+            const SizedBox(height: 12),
+            const ShareRow(),
 
-const SizedBox(height: 12),
-const StampStack(),
+            const SizedBox(height: 12),
+            const InfoBox(),
 
-  const Clock(),
-  const SizedBox(height: 12),
-],
+            const SizedBox(height: 12),
+            const StampStack(),
 
-
+            const Clock(),
+            const SizedBox(height: 12),
+          ],
         ),
       ),
     );
@@ -152,40 +162,41 @@ class SettingsCard extends StatelessWidget {
 class SummaryRow extends StatelessWidget {
   const SummaryRow({super.key});
 
-// Constraints go down: Expanded gives each Text a limited share of the Row's width.
-// Sizes go up: each Text reports the height it needs after wrapping its words.
+  // Constraints go down: Expanded gives each Text a limited share of the Row's width.
+  // Sizes go up: each Text reports the height it needs after wrapping its words.
   @override
   Widget build(BuildContext context) {
     return Row(
-  children: [
-    Expanded(
-      child: Text(
-        'Part A: read the widget tree of the $course board from top to bottom.',
-        key: const Key('sum-a'),
-      ),
-    ),
-    Expanded(
-      child: Text(
-        'Part B: build each box from small widgets and never extend a built-in class.',
-        key: const Key('sum-b'),
-      ),
-    ),
-    Expanded(
-      child: Text(
-        'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
-        key: const Key('sum-c'),
-      ),
-    ),
-  ],
-);
+      children: [
+        Expanded(
+          child: Text(
+            'Part A: read the widget tree of the $course board from top to bottom.',
+            key: const Key('sum-a'),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            'Part B: build each box from small widgets and never extend a built-in class.',
+            key: const Key('sum-b'),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
+            key: const Key('sum-c'),
+          ),
+        ),
+      ],
+    );
   }
 }
+
 class ShareRow extends StatelessWidget {
   const ShareRow({super.key});
 
-// Expanded uses Flexible with FlexFit.tight.
-// If Expanded and Flexible are swapped, the flex proportions stay the same,
-// but the tight and loose space constraints change.
+  // Expanded uses Flexible with FlexFit.tight.
+  // If Expanded and Flexible are swapped, the flex proportions stay the same,
+  // but the tight and loose space constraints change.
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -194,10 +205,7 @@ class ShareRow extends StatelessWidget {
         SizedBox(
           key: const Key('fixed'),
           width: fixedW,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('F'),
-          ),
+          child: ElevatedButton(onPressed: () {}, child: const Text('F')),
         ),
         Expanded(
           flex: flexA,
@@ -219,14 +227,14 @@ class ShareRow extends StatelessWidget {
     );
   }
 }
+
 class InfoBox extends StatelessWidget {
   const InfoBox({super.key});
 
-
-// Padding is inside the border; margin is outside the border.
-// Use Padding when only inner spacing is needed.
-// Use SizedBox when you only need a fixed gap or size.
-// Use Container when you need multiple layout and decoration properties.
+  // Padding is inside the border; margin is outside the border.
+  // Use Padding when only inner spacing is needed.
+  // Use SizedBox when you only need a fixed gap or size.
+  // Use Container when you need multiple layout and decoration properties.
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -238,20 +246,17 @@ class InfoBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(boxRadius),
         border: Border.all(width: boxBorder),
       ),
-      child: Text(
-        'Course: $course',
-        key: const Key('box-text'),
-      ),
+      child: Text('Course: $course', key: const Key('box-text')),
     );
   }
 }
+
 class StampStack extends StatelessWidget {
   const StampStack({super.key});
 
-
-// The Stack size is determined by its non-positioned child.
-// If the Icons come first and the grey Container last,
-// the Container may cover the Icons because it paints on top.
+  // The Stack size is determined by its non-positioned child.
+  // If the Icons come first and the grey Container last,
+  // the Container may cover the Icons because it paints on top.
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -266,18 +271,12 @@ class StampStack extends StatelessWidget {
         Positioned(
           top: dotTop,
           right: dotRight,
-          child: const Icon(
-            Icons.star,
-            key: Key('dot-top'),
-          ),
+          child: const Icon(Icons.star, key: Key('dot-top')),
         ),
         Positioned(
           bottom: dotBottom,
           left: dotLeft,
-          child: const Icon(
-            Icons.circle,
-            key: Key('dot-bottom'),
-          ),
+          child: const Icon(Icons.circle, key: Key('dot-bottom')),
         ),
       ],
     );
@@ -296,51 +295,41 @@ class _ClockState extends State<Clock> {
   int _seconds = startSec;
   int _builds = 0;
 
-  
-@override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  lifecycleLog.add('initState');
+    lifecycleLog.add('initState');
 
-  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    setState(() => _seconds += tick);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() => _seconds += tick);
 
-    if (_seconds >= stopAt) {
-      timer.cancel();
-    }
-  });
-}
+      if (_seconds >= stopAt) {
+        timer.cancel();
+      }
+    });
+  }
 
-@override
-void dispose() {
-  _timer.cancel();
-  lifecycleLog.add('dispose');
-  super.dispose();
-}
+  @override
+  void dispose() {
+    _timer.cancel();
+    lifecycleLog.add('dispose');
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    _builds++;
 
-  
-@override
-Widget build(BuildContext context) {
-  _builds++;
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        'Session: $_seconds s',
-        key: const Key('clock'),
-      ),
-      Text(
-        'Builds: $_builds',
-        key: const Key('builds'),
-      ),
-      Probe(seconds: _seconds),
-    ],
-  );
-}
-
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Session: $_seconds s', key: const Key('clock')),
+        Text('Builds: $_builds', key: const Key('builds')),
+        Probe(seconds: _seconds),
+      ],
+    );
+  }
 }
 
 class Probe extends StatelessWidget {
@@ -354,7 +343,7 @@ class Probe extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Seen at: $seconds s'),
-        Text('Widget hash: ${hashCode}'),
+        Text('Widget hash: $hashCode'),
         Text('Element hash: ${context.hashCode}'),
         Text('Context belongs to: ${context.widget.runtimeType}'),
         Text(
@@ -372,10 +361,7 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'Welcome, $studentName',
-        key: const Key('welcome'),
-      ),
+      child: Text('Welcome, $studentName', key: const Key('welcome')),
     );
   }
 }
@@ -441,12 +427,13 @@ class _SwapBoardState extends State<SwapBoard> {
     );
   }
 }
+
 class InfoPanel extends StatelessWidget {
   const InfoPanel({super.key});
 
-// In a Column, the main axis is vertical.
-// The cross axis is horizontal, so CrossAxisAlignment.center
-// moves children horizontally (left or right), not vertically.
+  // In a Column, the main axis is vertical.
+  // The cross axis is horizontal, so CrossAxisAlignment.center
+  // moves children horizontally (left or right), not vertically.
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -475,8 +462,3 @@ class InfoPanel extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
