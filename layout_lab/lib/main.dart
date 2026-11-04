@@ -113,6 +113,9 @@ const ShareRow(),
 const SizedBox(height: 12),
 const InfoBox(),
 
+const SizedBox(height: 12),
+const StampStack(),
+
   const Clock(),
   const SizedBox(height: 12),
 ],
@@ -239,6 +242,44 @@ class InfoBox extends StatelessWidget {
         'Course: $course',
         key: const Key('box-text'),
       ),
+    );
+  }
+}
+class StampStack extends StatelessWidget {
+  const StampStack({super.key});
+
+
+// The Stack size is determined by its non-positioned child.
+// If the Icons come first and the grey Container last,
+// the Container may cover the Icons because it paints on top.
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      key: const Key('stack'),
+      children: [
+        Container(
+          key: const Key('layer-base'),
+          width: 300,
+          height: 120,
+          color: Colors.grey.shade300,
+        ),
+        Positioned(
+          top: dotTop,
+          right: dotRight,
+          child: const Icon(
+            Icons.star,
+            key: Key('dot-top'),
+          ),
+        ),
+        Positioned(
+          bottom: dotBottom,
+          left: dotLeft,
+          child: const Icon(
+            Icons.circle,
+            key: Key('dot-bottom'),
+          ),
+        ),
+      ],
     );
   }
 }
