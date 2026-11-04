@@ -92,11 +92,28 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          
+children: [
   const SettingsCard(),
   const SizedBox(height: 12),
+
+  const Welcome(),
+  const SizedBox(height: 12),
+
+  Row(
+    children: [
+      Tile(tileA),
+      Tile(tileB),
+      Tile(tileC),
+    ],
+  ),
+  const SizedBox(height: 12),
+
   const Clock(),
+  const SizedBox(height: 12),
 ],
+
+
         ),
       ),
     );
@@ -230,5 +247,52 @@ class Probe extends StatelessWidget {
     );
   }
 }
+
+class Welcome extends StatelessWidget {
+  const Welcome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Welcome, $studentName',
+        key: const Key('welcome'),
+      ),
+    );
+  }
+}
+
+class Tile extends StatefulWidget {
+  final String label;
+
+  const Tile(this.label, {super.key});
+
+  @override
+  State<Tile> createState() => _TileState();
+}
+
+class _TileState extends State<Tile> {
+  int taps = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('${widget.label}: $taps'),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              taps++;
+            });
+          },
+          child: const Text('Tap me'),
+        ),
+      ],
+    );
+  }
+}
+
+
 
 
